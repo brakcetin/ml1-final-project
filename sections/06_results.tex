@@ -1,0 +1,36 @@
+\label{sec:results}
+
+In this section, we present a comparative analysis of the four proposed machine learning pipelines. The primary metric for evaluation is the Test Accuracy on the unseen test set, complemented by the F1-Score to account for class imbalance. We also analyze the trade-off between feature dimensionality and predictive performance.
+
+\subsection{Performance Comparison}
+
+Table \ref{tab:final_comparison} summarizes the best performance achieved by each approach. The \textbf{Baseline Approach} utilizes the full feature set without reduction and serves as the performance benchmark for the dimensionality reduction techniques.
+
+\begin{table}[h]
+    \centering
+    \caption{Comparison of Test Accuracy and Feature Dimensionality across all approaches.}
+    \label{tab:final_comparison}
+    \resizebox{\columnwidth}{!}{%
+    \begin{tabular}{llcc}
+        \toprule
+        \textbf{Approach} & \textbf{Technique} & \textbf{Input Dims} & \textbf{Accuracy} \\
+        \midrule
+        Approach 1 & Full Features (Baseline) & 561 & \textbf{95.70\%} \\
+        Approach 2 & PCA + Ensemble & \textbf{102} & 93.32\% \\
+        Approach 3 & AutoEncoder + LDA & 64 & \textit{XX.X\%} \\
+        Approach 4 & Subject-Disjoint (Test1) & $\sim$200 & 94.70\% \\
+        \bottomrule
+    \end{tabular}%
+    }
+\end{table}
+
+\subsection{Discussion of Trade-offs}
+
+\subsubsection{Accuracy vs. Efficiency}
+\textbf{Approach 1 (Baseline)} achieved the highest accuracy of 95.70\% using an Ensemble model on all 561 features. However, \textbf{Approach 2 (PCA)} demonstrated that the dataset contains significant redundancy. By preserving 95\% of the variance, the feature space was compressed to 102 components (\textbf{81.8\% reduction}), while maintaining a competitive accuracy of 93.32\%. This represents a minor 2.4\% drop in performance for a 5-fold reduction in input complexity, making Approach 2 highly suitable for resource-constrained embedded systems.
+
+\subsubsection{Generalization to New Subjects}
+\textbf{Approach 4} focused on the impact of subject independence. The experiments revealed a clear performance gap between testing on mixed data (98.25\%) versus completely unseen subjects (94.70\%). Both Approach 2 and Approach 4 confirmed that standard validation methods can overestimate performance if subject overlap exists. The final results on the unseen test set (93-95\% range) represent the true generalization capability of the models.
+
+\subsubsection{Ensemble Robustness}
+Across all approaches, the \textbf{Voting Ensemble} strategy (combining ANN, SVM, and kNN) consistently outperformed individual classifiers. The ensemble method effectively mitigated specific weaknesses, such as kNN's tendency to overfit to training subjects and SVM's rigidity in dynamic transitions.

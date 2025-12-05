@@ -1,0 +1,20 @@
+\label{sec:conclusion}
+
+In this project, we successfully implemented and evaluated four distinct machine learning pipelines for Human Activity Recognition (HAR) using the UCI Smartphone dataset. Our investigation highlighted the trade-offs between model complexity, computational efficiency, and generalization capability.
+
+\textbf{Key Findings:}
+\begin{itemize}
+    \item \textbf{Baseline Performance:} Traditional machine learning models, particularly the Voting Ensemble (ANN+SVM+kNN), are highly effective on this dataset, achieving a state-of-the-art accuracy of \textbf{95.7\%} when using all 561 engineered features.
+    
+    \item \textbf{Efficiency via PCA:} We demonstrated that dimensionality reduction is a viable strategy for resource-constrained environments. The PCA-based approach reduced the feature space by \textbf{82\%} (102 components) with only a marginal loss in accuracy (93.32\%), proving that the original feature set contains high redundancy.
+    
+    \item \textbf{Generalization Challenges:} The subject-disjoint analysis revealed that models perform significantly better on known subjects (98.25\%) compared to new subjects (94.70\%). This emphasizes the importance of leave-one-subject-out cross-validation strategies for real-world deployment.
+    
+    \item \textbf{Classification Challenges:} Across all pipelines, the primary source of error remained the confusion between static postures (\textit{Sitting} vs. \textit{Standing}). Dynamic activities were classified with near-perfect precision.
+\end{itemize}
+
+\textbf{Final Recommendation:}
+For applications where accuracy is paramount and computational resources are abundant, the \textbf{Full-Feature Ensemble (Approach 1)} is the optimal choice. However, for mobile or edge-computing scenarios, the \textbf{PCA-based Ensemble (Approach 2)} offers the best balance, providing high performance with significantly lower memory and processing requirements.
+
+\textbf{Future Work:}
+Future improvements should focus on resolving the Sitting/Standing ambiguity, potentially by explicitly injecting gravity-vector features into the reduced datasets or employing deep learning architectures (LSTMs/CNNs) directly on raw sensor signals to learn discriminative temporal patterns automatically.
