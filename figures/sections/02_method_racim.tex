@@ -1,0 +1,86 @@
+\label{sec:method_racim}
+
+In this approach, we evaluated classical machine learning models using the full set of 561 engineered features from the UCI HAR dataset. Unlike PCA or LDA, this method applies no dimensionality reduction; instead, it investigates whether the original high-dimensional representation already provides strong discriminative power for activity recognition.
+
+\subsubsection{Data Preprocessing}
+
+Because the HAR dataset contains features with heterogeneous numerical ranges, we standardized all inputs using Z-score normalization:
+
+\begin{equation}
+    z = \frac{x - \mu}{\sigma}
+\end{equation}
+
+This step ensures that models sensitive to scale—such as SVM, ANN, and kNN—operate on features with consistent magnitudes.  
+No feature removal or compression was applied, making this a true full-feature baseline.
+
+\subsubsection{Model Optimization}
+
+We trained four supervised learning models using 5-Fold Stratified Cross-Validation (CV).  
+The following configurations achieved the best performance for each model:
+
+\begin{itemize}
+    \item \textbf{Artificial Neural Network (ANN):} A multilayer perceptron with architecture [128, 32] achieved a CV accuracy of 93.04\%.
+    \item \textbf{Support Vector Machine (SVM):} The RBF kernel with \(C = 1.0\) reached a CV accuracy of 92.73\%.
+    \item \textbf{k-Nearest Neighbors (kNN):} The best performance was observed at \(k = 3\) (CV: 91.65\%).
+    \item \textbf{Decision Tree (DT):} A depth-10 tree achieved 88.47\% CV accuracy.
+\end{itemize}
+
+\subsubsection{Ensemble Strategy}
+
+To improve robustness and reduce single-model biases, we created a \textbf{Voting Ensemble} combining ANN, SVM, and kNN.  
+Majority voting improved generalization, particularly for ambiguous activities such as \textit{Sitting} vs. \textit{Standing}.
+
+\subsubsection{Performance Analysis}
+
+The models were evaluated on the strictly separated Test Set.  
+Figure~\ref{fig:baseline_accuracy} shows the comparative accuracy between the five models.  
+Quantitative results are summarized in Table~\ref{tab:racim_results}.
+
+% --- FIGURE 1: MODEL COMPARISON ---
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/baseline_accuracy.png}
+    \caption{Test accuracy comparison of ANN, SVM, kNN, Decision Tree, and Ensemble models. The Ensemble model achieved the highest accuracy of 95.7\%.}
+    \label{fig:baseline_accuracy}
+\end{figure}
+
+% --- TABLE 1: PERFORMANCE RESULTS ---
+\begin{table}[h]
+  \caption{Performance Comparison (Full-Feature Baseline Approach)}
+  \label{tab:racim_results}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{lccc}
+    \toprule
+    Model & CV Accuracy & Test Accuracy & F1-Score\\
+    \midrule
+    \textbf{Ensemble} & \textbf{-} & \textbf{95.7\%} & \textbf{0.957} \\
+    ANN & 93.04\% & 94.5\% & 0.945 \\
+    SVM (RBF) & 92.73\% & 96.1\% & 0.960 \\
+    kNN ($k=3$) & 91.65\% & 87.4\% & 0.873 \\
+    Decision Tree & 88.47\% & 86.3\% & 0.863 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}
+
+Figure~\ref{fig:confusion_fullfeature} presents the confusion matrix of the Ensemble model.  
+Consistent with related work, the primary confusions occur between \textit{Sitting} and \textit{Standing}, the two classes with the most similar motion patterns.
+
+% --- FIGURE 2: CONFUSION MATRIX ---
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/confusion_fullfeature.png}
+    \caption{Confusion Matrix of the Full-Feature Ensemble Model. Slight confusion occurs mainly between Sitting and Standing.}
+    \label{fig:confusion_fullfeature}
+\end{figure}
+
+\subsubsection{Limitations and Future Work}
+
+Although the full-feature baseline achieved high performance, its computational cost is significantly higher than PCA or LDA approaches.  
+Future improvements may include:
+
+\begin{enumerate}
+    \item \textbf{Feature Selection:} Using mutual information or recursive elimination to reduce redundancy among the 561 features.
+    \item \textbf{Hybrid Dimensionality Reduction:} Combining PCA with a subset of raw features to maintain interpretability.
+    \item \textbf{Weighted Ensembles:} Giving more weight to ANN and SVM predictions to enhance static activity classification.
+\end{enumerate}

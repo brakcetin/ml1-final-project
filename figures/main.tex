@@ -1,0 +1,94 @@
+%% ACM Primary Article Template - Cleaned for 4 Students
+\documentclass[sigconf]{acmart}
+
+%% --- REQUIRED PACKAGES ---
+\usepackage{booktabs} % For professional looking tables
+\usepackage{graphicx} % For inserting images
+\usepackage{float}    % To force image placement (using [H])
+
+%% --- HIDE COPYRIGHT/ACM INFO (For Class Assignment) ---
+%% Since this is a student project, we hide the official ACM citation block
+\settopmatter{printacmref=false}
+\setcopyright{none}
+\renewcommand\footnotetextcopyrightpermission[1]{} 
+\pagestyle{plain} % Adds page numbers (useful for reviewing)
+
+\begin{document}
+
+%% --- TITLE ---
+\title{Comparative Analysis of Machine Learning Approaches for Human Activity Recognition}
+\subtitle{Machine Learning I - Final Project Report}
+
+%% --- AUTHORS (4 MEMBERS) ---
+%% Make sure to replace [Surname] with actual surnames
+
+\author{Burak Cetin}
+\affiliation{
+  \institution{University of Vigo}
+  \country{Spain}
+}
+\email{brakcetin660@gmail.com}
+
+\author{Erik Figueiral Alonso}
+\affiliation{
+  \institution{University of Vigo}
+  \country{Spain}
+}
+\email{erikfial1@gmail.com}
+
+\author{Racim Allal}
+\affiliation{
+  \institution{University of Vigo}
+  \country{Spain}
+}
+\email{racim.allal@col.udc.es}
+
+\author{Roi Cores Cabaleiro}
+\affiliation{
+  \institution{University of Vigo}
+  \country{Spain}
+}
+\email{roi.cores.cabaleiro@gmail.com}
+
+%% --- ABSTRACT ---
+\begin{abstract}
+This report presents a comparative study of four different machine learning pipelines for Human Activity Recognition (HAR) using the UCI Smartphone dataset. We investigate the effectiveness of dimensionality reduction techniques, including Principal Component Analysis (PCA) and Linear Discriminant Analysis (LDA), against traditional baseline models. Our experimental results demonstrate that the PCA-based Ensemble approach achieves a test accuracy of 93.32\%, offering an optimal balance between computational efficiency and performance.
+\end{abstract}
+
+%% --- KEYWORDS ---
+\keywords{Human Activity Recognition, PCA, Ensemble Learning, LDA, Machine Learning}
+
+\maketitle
+
+%% --- IMPORTING SECTIONS (Modular Structure) ---
+
+\section{Introduction}
+\input{sections/01_introduction}
+
+\section{Methodology}
+In this study, each team member explored a different pipeline to solve the classification problem.
+
+\subsection{Approach 1: Full-Feature Baseline Classification}
+\input{sections/02_method_racim}
+
+\subsection{Approach 2: PCA \& Ensemble Learning}
+\input{sections/03_method_burak}
+
+\subsection{Approach 3: [Erik's Method]}
+\input{sections/04_method_erik}
+
+\subsection{Approach 4: [Roi's Method]}
+\input{sections/05_method_roi}
+
+\section{Experimental Results}
+\input{sections/06_results}
+
+\section{Conclusion}
+\input{sections/07_conclusion}
+
+%% --- REFERENCES ---
+\nocite{*}
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
